@@ -9,13 +9,13 @@ use crate::errors::InvalidPathError;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    #[arg(short, long, default_value = ".")]
+    #[arg(short, long, default_value = "./")]
     path: String,
     #[arg(short, long)]
     tag: Option<String>,
 }
 
-// TODO: move these structs to their own file
+// TODO_BM: move these structs to their own file
 // as well as their implementations /td
 struct FileMap {
     ignored_paths: Vec<String>,
@@ -132,7 +132,7 @@ fn hunt_for_todos(
                 if unwrp_line.trim_end().ends_with("/td") || (!in_comment && !in_block_comment) {
                     let mut todomsg: TodoMessage = TodoMessage::new();
                     todomsg.line_number = line_start;
-                    todomsg.file_name = main_path.to_owned();
+                    todomsg.file_name = path.to_owned();
                     todomsg.message = msg.trim_end().to_owned().clone();
                     message_vec.push(todomsg);
                     msg = String::new();
@@ -177,7 +177,6 @@ fn build_ignore_map(
     ignored_paths: &mut Vec<String>,
     path: &str,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    println!("path: {}", path);
     let gitignore = std::fs::File::open(path)?;
     let reader = BufReader::new(gitignore);
 
