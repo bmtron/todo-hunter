@@ -143,12 +143,9 @@ fn hunt_for_todos(
             count = count + 1;
         }
     }
+    // TODO handle multiple line formatting in a more professional way /td
     for item in message_vec.iter() {
-        println!("TODO Item:");
-        println!("  File:    {}", item.file_name);
-        println!("  Line:    {}", item.line_number);
-        println!("  Message: {}", item.message);
-        println!();
+        println!("{}:{}:{}", item.file_name, item.line_number, item.message);
     }
     Ok(())
 }
