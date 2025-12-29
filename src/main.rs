@@ -92,6 +92,15 @@ fn hunt_for_todos(
         let mut in_todo_msg = false;
 
         for line in reader.lines() {
+            let line_result = match &line {
+                Ok(_l) => true, 
+                Err(_e) => false
+            };
+            
+            if !line_result {
+                continue;
+            }
+
             let unwrp_line: String = line?;
 
             if unwrp_line.trim_start().starts_with("//")
